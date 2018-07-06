@@ -1,6 +1,5 @@
 
 // MODULES
-
 /* Important aspect of any robust application's architecture;
    keep the units of code for project both cleanly separated and organized;
    Encapsulate some data into privacy and expose other data publicly.
@@ -12,10 +11,6 @@ var budgetController = (function(){
 
 
 })();
-
-
-
-
 
 
 
@@ -66,18 +61,35 @@ var UIController = (function(){
 })();
 
 
-
-
-
 /*********************************** GLOBAL APP CONTROLLER ***************/
 // here we pass the other two modules as arguments to th controller
 var controller = (function(budgetCtrl, UICtrl){
 
-var DOM = UICtrl.getDOMstrings();
+var setupEventListeners = function(){
+
+  var DOM = UICtrl.getDOMstrings();
+  document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddIterm);
+  // KEYborad press event // keypress: press any key
+  document.addEventListener('keypress', function(e){
+      // keycode == enter \   old broswer
+      if(e.keyCode === 13 || e.which === 13){
+        // when press the enter key
+        ctrlAddIterm();
+      } //if
+
+    });
+
+};
 
 
-// Avoid DRY dont repeat yourself : solution
-var ctrlAddIterm = function(){
+
+/* Create  a public iniitalization function*/
+
+
+
+
+
+var ctrlAddIterm = function(){  // Avoid DRY dont repeat yourself : solution
   // console.log('button clicked'); // test button
 
   // 1. Get the field  input data
@@ -97,33 +109,20 @@ var ctrlAddIterm = function(){
 
 
 
+};
+
+return{
+  init: function(){
+    console.log('App has started');
+    setupEventListeners();
+  }
 }
-
-
-
-  document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddIterm);
-
-
-
-      // KEYborad press event // keypress: press any key
-    document.addEventListener('keypress', function(e){
-
-      // keycode == enter \   old broswer
-      if(e.keyCode === 13 || e.which === 13){
-
-        // when press the enter key
-        ctrlAddIterm();
-
-
-      } //if
-
-    });
-
 
 
 })(budgetController, UIController);  // // GLOBAL APP CONTROLLER
 
 
+controller.init();
 
 
 
