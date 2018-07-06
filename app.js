@@ -6,32 +6,83 @@
    Encapsulate some data into privacy and expose other data publicly.
 */
 
-// budgetController
+ /*********************************** budgetController *********************/
 var budgetController = (function(){
 
 
 
 })();
 
-// UI controller
+
+
+
+
+
+
+/*********************************** UI controller***********************
+* A public funciton to be used in another fucntion
+*
+*/
 var UIController = (function(){
 
-  // todo
+  // make cleaner
+  var DOMstrings = {
+    inputType:'.add__type',
+    inputDescription:'.add__description',
+    inputValue:'.add__value',
+    inputBtn:'.add__btn'
+  };
+
+
+
+  return{
+    getinput: function(){
+
+      return{
+
+        type: document.querySelector(DOMstrings.inputType).value,// will be either inc or exp
+        description: document.querySelector(DOMstrings.inputDescription).value,
+        value: document.querySelector(DOMstrings.inputValue).value
+
+      };
+
+      /*
+      // read the input
+      var type = document.querySelector('.add__type').value;// will be either inc or exp
+      var description = document.querySelector('.add__description').value;
+      var value = document.querySelector('.add__value').value;
+      */
+
+    }, //  getinput
+
+    /*exposing the DOMstrings object into the public*/
+    getDOMstrings:function(){
+      return DOMstrings;
+    }
+
+  }; // UIController
+
 
 })();
 
 
 
-// GLOBAL APP CONTROLLER
+
+
+/*********************************** GLOBAL APP CONTROLLER ***************/
 // here we pass the other two modules as arguments to th controller
 var controller = (function(budgetCtrl, UICtrl){
+
+var DOM = UICtrl.getDOMstrings();
+
 
 // Avoid DRY dont repeat yourself : solution
 var ctrlAddIterm = function(){
   // console.log('button clicked'); // test button
 
   // 1. Get the field  input data
-
+  var input = UICtrl.getinput();
+  console.log(input);
 
   // 2. Add the item to the budget CONTROLLER
 
@@ -44,28 +95,30 @@ var ctrlAddIterm = function(){
 
   // 5. Didpay the budget on the UI
 
-console.log(' it works yea');
+
 
 }
 
 
-  document.querySelector('.add__btn').addEventListener('click', ctrlAddIterm);
+
+  document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddIterm);
 
 
 
-    // KEYborad press event // keypress: press any key
-  document.addEventListener('keypress', function(e){
+      // KEYborad press event // keypress: press any key
+    document.addEventListener('keypress', function(e){
 
-    // keycode == enter \   old broswer
-    if(e.keyCode === 13 || e.which === 13){
+      // keycode == enter \   old broswer
+      if(e.keyCode === 13 || e.which === 13){
 
-      // when press the enter key
-      ctrlAddIterm();
+        // when press the enter key
+        ctrlAddIterm();
 
 
-    } //if
+      } //if
 
-  });
+    });
+
 
 
 })(budgetController, UIController);  // // GLOBAL APP CONTROLLER
