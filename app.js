@@ -133,14 +133,12 @@ return {
   }
 }; // return fun
 
-
-
 })(); // budgetController
 
 
 /*******************************************************************************
 ******* UI CONTROLLER ********************************************************
- ******************************************************************************/
+******************************************************************************/
 /* A public funciton to be used in another fucntion
 *
 */
@@ -160,8 +158,6 @@ var UIController = (function(){
     percentageLabel:'.budget__expenses--percentage',
     container:'.container'
   };
-
-
 
   return{
     getInput: function(){
@@ -204,6 +200,13 @@ var UIController = (function(){
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
     },
 
+    // remove item from UI
+    deleteListItem:function(selectorID){
+      var el = document.getElementById(selectorID);
+      document.getElementById(selectorID);
+      el.parentNode.removeChild(el);
+
+    },
 
     // clear Fields
     clearFields: function(){
@@ -254,7 +257,7 @@ var UIController = (function(){
 
 
 /******************************************************************************
-* GLOBAL APP CONTROLLER *******************************************************
+*   GLOBAL APP CONTROLLER    **************************************************
 ******************************************************************************/
 // here we pass the other two modules as arguments to th controller
 var controller = (function(budgetCtrl, UICtrl){
@@ -275,9 +278,8 @@ var setupEventListeners = function(){
 
   // event delegation
   document.querySelector(DOM.container).addEventListener('click', ctrolDeleteItem);
+  };
 
-
-};
 
 
 var updateBudget = function(){
@@ -289,9 +291,17 @@ var budget = budgetCtrl.getBudget();
 
   // 3. Display the budget on UI
   UICtrl.displayBudget(budget);
-}
+} //updateBudget
 
+// updatePercentages
+var updatePercentages = function(){
+  // 1, caculate updatePercentages
 
+  // 2, read percentages from the budget CONTROLLER
+
+  // 3, update UI with the new percentages
+
+};
 
 
 
@@ -322,6 +332,9 @@ var ctrlAddItem = function(){  // Avoid DRY dont repeat yourself : solution
     // 5. Calculate and update budget__title
     updateBudget();
 
+    // 6. caculate and update percentages
+    updatePercentages();
+
   }
 
 };
@@ -339,11 +352,12 @@ var ctrolDeleteItem = function(event){
     // 1 delete item from data structure
     budgetCtrl.deleteItem(type, ID);
     // 2. Delete the item from UI
+    UICtrl.deleteListItem(itemID);
 
-
-    // Update and show the new budget
-
-
+    //3. Update and show the new budget
+    updateBudget();
+    // 4. caculate and update percentages
+    updatePercentages();
 
   }
 
