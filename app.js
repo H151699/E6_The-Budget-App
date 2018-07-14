@@ -192,6 +192,7 @@ var UIController = (function(){
     percentageLabel:'.budget__expenses--percentage',
     container:'.container',
     expensesPercLabel:'.item__percentage',
+    dateLabel:'.budget__title--month'
   };
 
 
@@ -329,10 +330,25 @@ var UIController = (function(){
           current.textContent = '---'
         }
       });
-
-
-
     },
+
+/*******************************************************************************/
+// Display data month
+
+displayMonth: function(){
+
+  var now, year, month, months;
+
+  now =new Date();
+  //var christmas = new Date(2016, 11, 25);
+  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  month = now.getMonth();
+  year = now.getFullYear();
+  document.querySelector(DOMstrings.dateLabel).textContent = ' '+ months[month] + ' ' + year;
+},
+
+
+
 
 
 
@@ -461,6 +477,7 @@ var ctrolDeleteItem = function(event){
 return{
   init: function(){
     console.log('App has started');
+    UICtrl.displayMonth();
     UICtrl.displayBudget({  // reset to zero when reload
       budget:0,
       totalInc: 0,
