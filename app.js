@@ -226,6 +226,14 @@ var UIController = (function(){
   };
 
 
+  // nodeListForEach loop
+  var nodeListForEach = function(list, callback){
+    for(var i= 0; i < list.length; i++){
+      callback(list[i], i);
+    }
+  };
+
+
   return{
     getInput: function(){
 
@@ -316,11 +324,7 @@ var UIController = (function(){
 
       var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
 
-      var nodeListForEach = function(list, callback){
-        for(var i= 0; i < list.length; i++){
-          callback(list[i], i);
-        }
-      };
+      //
 
 
       nodeListForEach(fields, function(current, index){
@@ -348,7 +352,23 @@ displayMonth: function(){
 },
 
 
+// change input type box frame color
+changedType: function(){
+  var fields = document.querySelectorAll(
+    DOMstrings.inputType + ',' +
+    DOMstrings.inputDescription + ',' +
+    DOMstrings.inputValue
+  );
 
+  nodeListForEach(fields, function(cur){
+    cur.classList.toggle('red-focus');
+
+  });
+
+document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
+
+
+},
 
 
 
@@ -388,7 +408,12 @@ var setupEventListeners = function(){
 
   // event delegation
   document.querySelector(DOM.container).addEventListener('click', ctrolDeleteItem);
+  //
+  document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
+
+
   };
+
 
 
 
@@ -493,18 +518,6 @@ return{
 
 
 controller.init();
-
-
-
-
-
-
-
-
-
-
-
-
 //
 //
 //
